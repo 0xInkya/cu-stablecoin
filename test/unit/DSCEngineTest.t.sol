@@ -67,7 +67,7 @@ contract Unit is Test {
     //////////////////////////////////////////////////////////////*/
     function testRevertsWithUnapprovedCollateral() public {
         ERC20Mock ranToken = new ERC20Mock("Random", "RAN", USER, AMOUNT_COLLATERAL);
-        
+
         vm.expectRevert(DSCEngine.DSCEngine__TokenNotAllowed.selector);
         vm.prank(USER);
         dsce.depositCollateral(address(ranToken), AMOUNT_COLLATERAL);
@@ -93,7 +93,7 @@ contract Unit is Test {
 
         uint256 expectedUserDscMinted = 0;
         uint256 expectedDepositAmount = dsce.getTokenAmountFromUsd(weth, collateralValueInUsd);
-        
+
         assertEq(userDscMinted, expectedUserDscMinted);
         assertEq(AMOUNT_COLLATERAL, expectedDepositAmount);
     }
