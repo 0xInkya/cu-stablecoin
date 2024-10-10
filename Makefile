@@ -3,6 +3,7 @@
 .PHONY: all test clean deploy fund help install snapshot format anvil zktest
 
 DEFAULT_ANVIL_KEY := 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+DEFAULT_ANVIL_ADDRESS := 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
 
 all: clean remove install update build
 
@@ -40,7 +41,7 @@ anvil :; anvil -m 'test test test test test test test test test test test junk' 
 ## make anvil
 ## make deploy
 deploy:
-	@forge script script/<SCRIPT_NAME>.s.sol:<CONTRACT_NAME> $(NETWORK_ARGS)
+	@forge script script/DeployDSC.s.sol:DeployDSC $(NETWORK_ARGS)
 
 NETWORK_ARGS := --rpc-url http://localhost:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast
 
@@ -56,10 +57,10 @@ endif
 #//////////////////////////////////////////////////////////////*/
 
 # Address of the function caller goes here. Just put in $(DEFAULT_ANVIL_KEY) or $(SEPOLIA_ADDRESS)
-SENDER_ADDRESS := <SENDER_ADDRESS>
+SENDER_ADDRESS := $(DEFAULT_ANVIL_ADDRESS)
 
 # Call function-name of last deployed contract
 ## Anvil: make function-name
 ## Sepolia: make function-name ARGS="--network sepolia"
-function-name:
-	@forge script script/Interactions.s.sol:<CONTRACT_NAME> --sender $(SENDER_ADDRESS) $(NETWORK_ARGS)
+deposit-collateral:
+	@forge script script/Interactions.s.sol:DepositCollateral --sender $(SENDER_ADDRESS) $(NETWORK_ARGS)
